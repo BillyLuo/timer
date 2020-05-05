@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+    <script src="js/moment.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <style type="text/css">
+    		html {
+    			min-height: 100%;
+    			background: rgba(25,26,77,.8);
+    		}
+    		.count-label{
+    			color: #89899F;
+    			font-size: 20px;
+    			text-align: center;
+    			padding-top: 50px;
+    		}
+    		.count-label span {
+    			font-size: 24px;
+    			color: #41a3c1;
+    			font-weight: 700;
+    			margin: 0 4px;
+    		}
+    		.btn-wrapper{
+    			text-align: center;
+    			padding: 30px 0;
+    		}
+    		.btn {
+    			min-width: 300px;
+    			height: 36px;
+    			font-size: 16px;
+    			border: 1px solid #fff;
+    			color: #fff;
+    			border-radius: 6px;
+    			background: transparent;
+    			outline: none;
+    			margin: 20px 50px;
+    		}
+    		.btn.active{
+    			background: #eee;
+    			color: #41a3c1;
+    		}
+    		.time-area {
+    			padding-top: 80px;
+    			text-align: center;
+    			color: #89899F;
+    		}
+    		.time-area > span {
+    			display: inline-block;
+    			width: 50px;
+    			height: 50px;
+    			text-align: center;
+				line-height: 80px;
+    			margin-right: 2px;
+    			margin-bottom: 10px;
+    			background-position: center;
+    			background-repeat: no-repeat;
+    			background-size: 60%;
+    			background-color: rgba(25,26,77,1);
+    			vertical-align: middle;
+    			border-radius: 4px;
+    			color: #89899F;
+    			font-weight: 600;
+    			font-size: 20px;
+    		}
+    		.time-area > span.label {
+    			width: 30px;
+    			background: transparent;
+    			font-size: 20px;
+    			font-weight: normal;
+    		}
+    		.time-area em {
+    			font-style: normal;
+    			display: inline-block;
+    			vertical-align: middle;
+    			font-size: 20px;
+    			width: 20px;
+    			height: 50px;
+    			text-align: center;
+				line-height: 80px;
+    			margin-bottom: 10px;
+    		}
+    		.work-off {
+    			color: #eee;
+    		}
+    		.item-0{
+    			background-image: url(img/0.png);
+    		}
+    		.item-1{
+    			background-image: url(img/1.png);
+    		}
+    		.item-2{
+    			background-image: url(img/2.png);
+    		}
+    		.item-3{
+    			background-image: url(img/3.png);
+    		}
+    		.item-4{
+    			background-image: url(img/4.png);
+    		}
+    		.item-5{
+    			background-image: url(img/5.png);
+    		}
+    		.item-6{
+    			background-image: url(img/6.png);
+    		}
+    		.item-7{
+    			background-image: url(img/7.png);
+    		}
+    		.item-8{
+    			background-image: url(img/8.png);
+    		}
+    		.item-9{
+    			background-image: url(img/9.png);
+    		}
+    		@media only screen and (max-width: 640px) {
+    			.time-area > span,.time-area > span.label{
+    				width: 20px;
+    				height: 24px;
+    				line-height: 30px;
+    				font-size: 14px;
+    			}
+    			.time-area em{
+    				font-size: 14px;
+    				width: 20px;
+    				height: 24px;
+    				line-height: 30px;
+    			}
+    		}
+    </style>
+</head>
+<body>
+	<div id="app">
+		<div class="btn-wrapper">
+			<button class="btn btn-work" @click="changeType('0')" :class="{active: type == '0'}">下班倒计时</button>
+			<button class="btn btn-na" @click="changeType('1')" :class="{active: type == '1'}">国庆节倒计时</button>
+			<button class="btn btn-new" @click="changeType('2')" :class="{active: type == '2'}">春节倒计时</button>
+		</div>
+		<div class="count-label">
+			距离<span>{{typeLabel}}</span>还有：
+		</div>
+		<div class="time-area" v-if="count == 'counting'">
+			<template v-if="day > 0 || month > 0">
+				<span v-for="(item,index) in month" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'month'+index"></span><em>月</em>
+				<span v-for="(item,index) in day" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'day'+index"></span><em>天</em>
+			</template>
+			<span v-for="(item, index) in label" :key="index" :class="['item-'+item,{label: item.match(/\D/g)}]">{{item.match(/\D/g) ? item : ''}}</span>
+		</div>
+		<div class="time-area work-off" v-else-if="count == 'done'">
+			{{label}}
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	var vm = new Vue({
+		el:'#app',
+		data() {
+			return {
+				msg: {
+					greeting:'hello,world',
+					hello:'hello,hello'
+				},
+				type: '0',
+				typeLabel: '下班',
+				label: '--:--',
+				timer: null,
+				count: '',
+				year: '',
+				month: '',
+				day: '',
+				offWorkHour: 18,
+				offWorkMin: 0,
+				nationalDay: '2020-10-01 00:00:00',
+				springFestival: '2021-02-12 00:00:00'
+			}
+		},
+		mounted(){
+			this.initTimer()
+		},
+		methods:{
+			initDuration() {
+				var start = moment()
+				let offWorkHour = this.offWorkHour
+				let offWorkMin = this.offWorkMin
+				var end = moment().hour(offWorkHour).minute(offWorkMin).second(0)
+				var diff = end.diff(start)
+				var duration = moment.duration(diff);
+				return {duration: duration, diff: diff}
+			},
+			initDuByTime(time) {
+				var start = moment()
+				var end = moment(time)
+				var diff = end.diff(start)
+				var duration = moment.duration(diff);
+				return {duration: duration, diff: diff}
+			},
+			format(num) {
+				return num >= 10 ? num : ('0' + num)
+			},
+			changeType(type) {
+				this.type = type
+				this.clearTimer()
+				if(type == '0') {
+					this.initTimer()
+					this.typeLabel = '下班'
+				} else if(type == '1') {
+					this.initNa()
+					this.typeLabel = '国庆'
+				} else {
+					this.typeLabel = '春节'
+					this.initSp()
+				}
+			},
+			clearTimer() {
+				this.year = ''
+				this.month = ''
+				this.day = ''
+				this.label = '--:--:--'
+				clearInterval(this.timer)
+			},
+			initTimer(){
+				this.timer = setInterval(()=>{
+					var data = this.initDuration().duration._data
+					var diff = this.initDuration().diff
+					if(diff < 0) {
+						this.count = 'done'
+						this.label = '已经下班了哦，你还在加班么？'
+						this.clearTimer()
+						return
+					}else {
+						this.count = 'counting'
+						this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
+					}
+				},1000)
+			},
+			initNa(){
+				var nationalDay = this.nationalDay
+				this.timer = setInterval(()=>{
+					var data = this.initDuByTime(nationalDay).duration._data
+					var diff = this.initDuByTime(nationalDay).diff
+					if(diff < 0) {
+						this.count = 'done'
+						this.label = '国庆节已经过去'
+						this.clearTimer()
+						return
+					}else {
+						this.count = 'counting'
+
+						this.month = data.months.toString()
+						this.day = data.days.toString()
+						this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
+					}
+				},1000)
+			},
+			initSp(){
+				var springFestival = this.springFestival
+				this.timer = setInterval(()=>{
+					var data = this.initDuByTime(springFestival).duration._data
+					var diff = this.initDuByTime(springFestival).diff
+					if(diff < 0) {
+						this.count = 'done'
+						this.label = '春节已经过去'
+						this.clearTimer()
+						return
+					}else {
+						this.count = 'counting'
+						this.month = data.months.toString()
+						this.day = data.days.toString()
+						this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
+					}
+				},1000)
+			},
+		}
+	})
+</script>
+</html>
