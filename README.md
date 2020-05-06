@@ -1,2 +1,2 @@
 ## a simple vue demo
-	using `vue` and `moment`
+using `vue` and `moment`
