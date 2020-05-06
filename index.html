@@ -23,12 +23,18 @@
     			font-weight: 700;
     			margin: 0 4px;
     		}
+    		.count-label span em {
+    			font-style: normal;
+    			opacity: .7;
+    			font-size: 20px;
+    		}
     		.btn-wrapper{
     			text-align: center;
     			padding: 30px 0;
+    			padding-top: 150px;
     		}
     		.btn {
-    			min-width: 300px;
+    			min-width: 200px;
     			height: 36px;
     			font-size: 16px;
     			border: 1px solid #fff;
@@ -116,6 +122,24 @@
     			background-image: url(img/9.png);
     		}
     		@media only screen and (max-width: 640px) {
+    			.btn-wrapper {
+    				padding-top: 50px;
+    			}
+    			.btn {
+    				display: block;
+					width:80%;
+					margin-left: auto;
+					margin-right: auto;
+    			}
+    			.count-label {
+    				font-size: 16px;
+    			}
+    			.count-label span {
+    				font-size: 20px;
+    			}
+    			.count-label span em {
+    				font-size: 16px;
+    			}
     			.time-area > span,.time-area > span.label{
     				width: 20px;
     				height: 24px;
@@ -135,11 +159,12 @@
 	<div id="app">
 		<div class="btn-wrapper">
 			<button class="btn btn-work" @click="changeType('0')" :class="{active: type == '0'}">下班倒计时</button>
+			<button class="btn btn-new" @click="changeType('2')" :class="{active: type == '2'}">端午节倒计时</button>
 			<button class="btn btn-na" @click="changeType('1')" :class="{active: type == '1'}">国庆节倒计时</button>
-			<button class="btn btn-new" @click="changeType('2')" :class="{active: type == '2'}">春节倒计时</button>
+			<button class="btn btn-new" @click="changeType('3')" :class="{active: type == '2'}">春节倒计时</button>
 		</div>
 		<div class="count-label">
-			距离<span>{{typeLabel}}</span>还有：
+			距离<span>{{typeLabel}}<em>（{{notice}}）</em></span>还有：
 		</div>
 		<div class="time-area" v-if="count == 'counting'">
 			<template v-if="day > 0 || month > 0">
@@ -173,7 +198,22 @@
 				offWorkHour: 18,
 				offWorkMin: 0,
 				nationalDay: '2020-10-01 00:00:00',
-				springFestival: '2021-02-12 00:00:00'
+				springFestival: '2021-02-12 00:00:00',
+				duanwu: '2020-06-25 00:00:00'
+			}
+		},
+		computed: {
+			notice() {
+				var type = this.type
+				if (type == '0') {
+					return this.offWorkHour + ':' + (this.offWorkMin < 10 ? ('0' + this.offWorkMin) : this.offWorkMin)
+				} else if (type == '1') {
+					return moment(this.nationalDay).format('YYYY年MM月DD日')
+				}else if (type == '2'){
+					return moment(this.duanwu).format('YYYY年MM月DD日')
+				}else if (type == '3') {
+					return moment(this.springFestival).format('YYYY年MM月DD日')
+				}
 			}
 		},
 		mounted(){
@@ -208,7 +248,10 @@
 				} else if(type == '1') {
 					this.initNa()
 					this.typeLabel = '国庆'
-				} else {
+				} else if (type == '2'){
+					this.initDuanwu()
+					this.typeLabel = '端午节'
+				}else if (type == '3') {
 					this.typeLabel = '春节'
 					this.initSp()
 				}
@@ -262,6 +305,24 @@
 					if(diff < 0) {
 						this.count = 'done'
 						this.label = '春节已经过去'
+						this.clearTimer()
+						return
+					}else {
+						this.count = 'counting'
+						this.month = data.months.toString()
+						this.day = data.days.toString()
+						this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
+					}
+				},1000)
+			},
+			initDuanwu(){
+				var duanwu = this.duanwu
+				this.timer = setInterval(()=>{
+					var data = this.initDuByTime(duanwu).duration._data
+					var diff = this.initDuByTime(duanwu).diff
+					if(diff < 0) {
+						this.count = 'done'
+						this.label = '端午节已经过去'
 						this.clearTimer()
 						return
 					}else {
