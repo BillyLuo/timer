@@ -12,21 +12,22 @@
     			background: rgba(25,26,77,.8);
     		}
     		.count-label{
-    			color: #89899F;
+    			color: #fff;
     			font-size: 20px;
     			text-align: center;
     			padding-top: 50px;
     		}
     		.count-label span {
     			font-size: 24px;
-    			color: #41a3c1;
+    			color: #fff;
     			font-weight: 700;
     			margin: 0 4px;
     		}
     		.count-label span em {
     			font-style: normal;
-    			opacity: .7;
-    			font-size: 20px;
+    			font-size: 28px;
+          font-weight: 700;
+          color: #00FF00;
     		}
     		.btn-wrapper{
     			text-align: center;
@@ -49,27 +50,29 @@
     			color: #41a3c1;
     		}
     		.time-area {
-    			padding-top: 80px;
+    			margin-top: 40px;
     			text-align: center;
-    			color: #89899F;
+    			color: #fff;
+          padding-top: 20px;
+          /* background: rgba(0,0,0,.65); */
     		}
     		.time-area > span {
     			display: inline-block;
     			width: 50px;
     			height: 50px;
+          line-height: 50px;
     			text-align: center;
-				line-height: 80px;
     			margin-right: 2px;
     			margin-bottom: 10px;
     			background-position: center;
     			background-repeat: no-repeat;
     			background-size: 60%;
-    			background-color: rgba(25,26,77,1);
+    			background-color: rgba(0,0,0,.85);
     			vertical-align: middle;
     			border-radius: 4px;
-    			color: #89899F;
+    			color: #fff;
     			font-weight: 600;
-    			font-size: 20px;
+    			font-size: 30px;
     		}
     		.time-area > span.label {
     			width: 30px;
@@ -85,13 +88,13 @@
     			width: 20px;
     			height: 50px;
     			text-align: center;
-				line-height: 80px;
+          line-height:50px;
     			margin-bottom: 10px;
     		}
     		.work-off {
     			color: #eee;
     		}
-    		.item-0{
+    		/* .item-0{
     			background-image: url(img/0.png);
     		}
     		.item-1{
@@ -120,7 +123,7 @@
     		}
     		.item-9{
     			background-image: url(img/9.png);
-    		}
+    		} */
     		@media only screen and (max-width: 640px) {
     			.btn-wrapper {
     				padding-top: 50px;
@@ -143,7 +146,7 @@
     			.time-area > span,.time-area > span.label{
     				width: 20px;
     				height: 24px;
-    				line-height: 30px;
+    				line-height: 24px;
     				font-size: 14px;
     			}
     			.time-area em{
@@ -153,6 +156,18 @@
     				line-height: 30px;
     			}
     		}
+        #app {
+          position: absolute;
+          top: 0;
+          right: 0;
+          left: 0;
+          bottom: 0;
+          margin: auto;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
+          background-image: url(img/bg/offwork.jpg);
+        }
     </style>
 </head>
 <body>
@@ -168,10 +183,10 @@
 		</div>
 		<div class="time-area" v-if="count == 'counting'">
 			<template v-if="day > 0 || month > 0">
-				<span v-for="(item,index) in month" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'month'+index"></span><em>月</em>
-				<span v-for="(item,index) in day" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'day'+index"></span><em>天</em>
+				<span v-for="(item,index) in month" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'month'+index">{{item}}</span><em>月</em>
+				<span v-for="(item,index) in day" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'day'+index">{{item}}</span><em>天</em>
 			</template>
-			<span v-for="(item, index) in label" :key="index" :class="['item-'+item,{label: item.match(/\D/g)}]">{{item.match(/\D/g) ? item : ''}}</span>
+			<span v-for="(item, index) in label" :key="index" :class="['item-'+item,{label: item.match(/\D/g)}]">{{item}}</span>
 		</div>
 		<div class="time-area work-off" v-else-if="count == 'done'">
 			{{label}}
@@ -216,8 +231,25 @@
 				}
 			}
 		},
+    watch: {
+      type(val) {
+        var bg = {
+          '0': 'img/bg/offwork.jpg',
+          '2': 'img/bg/longzhou.jpg',
+          '1': 'img/bg/guoqing.jpg',
+          '3': 'img/bg/chunjie.jpeg',
+        }
+        console.log(bg[val])
+        app.style['background-image'] = 'url(' + bg[val] + ')'
+      }
+    },
 		mounted(){
-			this.initTimer()
+      let type = localStorage.getItem('type')
+      let arr = ['0', '1', '2', '3']
+      if (arr.indexOf(type) == -1) {
+        type = '0'
+      }
+      this.changeType(type)
 		},
 		methods:{
 			initDuration() {
@@ -240,6 +272,7 @@
 				return num >= 10 ? num : ('0' + num)
 			},
 			changeType(type) {
+        localStorage.setItem('type', type)
 				this.type = type
 				this.clearTimer()
 				if(type == '0') {
@@ -262,75 +295,100 @@
 				this.day = ''
 				// this.label = '--:--:--'
 				clearInterval(this.timer)
+        this.timer = null
 			},
+      _initTime(){
+        var data = this.initDuration().duration._data
+        var diff = this.initDuration().diff
+        if(diff < 0) {
+        	this.count = 'done'
+        	this.label = '已经下班了哦，你还在加班么？'
+        	this.clearTimer()
+        	return
+        }else {
+        	this.count = 'counting'
+        	this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
+        }
+      },
 			initTimer(){
+        if (!this.timer) {
+          this._initTime()
+        }
 				this.timer = setInterval(()=>{
-					var data = this.initDuration().duration._data
-					var diff = this.initDuration().diff
-					if(diff < 0) {
-						this.count = 'done'
-						this.label = '已经下班了哦，你还在加班么？'
-						this.clearTimer()
-						return
-					}else {
-						this.count = 'counting'
-						this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
-					}
+					this._initTime()
 				},1000)
 			},
+      _initNa() {
+        var nationalDay = this.nationalDay
+        var data = this.initDuByTime(nationalDay).duration._data
+        var diff = this.initDuByTime(nationalDay).diff
+        if(diff < 0) {
+        	this.count = 'done'
+        	this.label = '国庆节已经过去'
+        	this.clearTimer()
+        	return
+        }else {
+        	this.count = 'counting'
+        
+        	this.month = data.months.toString()
+        	this.day = data.days.toString()
+        	this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
+        }
+      },
 			initNa(){
-				var nationalDay = this.nationalDay
+        if (!this.timer) {
+          this._initNa()
+        }
 				this.timer = setInterval(()=>{
-					var data = this.initDuByTime(nationalDay).duration._data
-					var diff = this.initDuByTime(nationalDay).diff
-					if(diff < 0) {
-						this.count = 'done'
-						this.label = '国庆节已经过去'
-						this.clearTimer()
-						return
-					}else {
-						this.count = 'counting'
-
-						this.month = data.months.toString()
-						this.day = data.days.toString()
-						this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
-					}
+          this._initNa()
 				},1000)
 			},
+      _initSp() {
+        var springFestival = this.springFestival
+        var data = this.initDuByTime(springFestival).duration._data
+        var diff = this.initDuByTime(springFestival).diff
+        if(diff < 0) {
+        	this.count = 'done'
+        	this.label = '春节已经过去'
+        	this.clearTimer()
+        	return
+        }else {
+        	this.count = 'counting'
+        	this.month = data.months.toString()
+        	this.day = data.days.toString()
+        	this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
+        }
+      },
 			initSp(){
-				var springFestival = this.springFestival
+        if (!this.tiemr) {
+          this._initSp()
+        }
 				this.timer = setInterval(()=>{
-					var data = this.initDuByTime(springFestival).duration._data
-					var diff = this.initDuByTime(springFestival).diff
-					if(diff < 0) {
-						this.count = 'done'
-						this.label = '春节已经过去'
-						this.clearTimer()
-						return
-					}else {
-						this.count = 'counting'
-						this.month = data.months.toString()
-						this.day = data.days.toString()
-						this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
-					}
+          this._initSp()
 				},1000)
 			},
+      _initDuanwu() {
+        var duanwu = this.duanwu
+        var data = this.initDuByTime(duanwu).duration._data
+        var diff = this.initDuByTime(duanwu).diff
+        if(diff < 0) {
+        	this.count = 'done'
+        	this.label = '端午节已经过去'
+        	this.clearTimer()
+        	return
+        }else {
+        	this.count = 'counting'
+        	this.month = data.months.toString()
+        	this.day = data.days.toString()
+        	this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
+        }
+      },
 			initDuanwu(){
-				var duanwu = this.duanwu
+        if (!this.timer) {
+          this._initDuanwu()
+        }
 				this.timer = setInterval(()=>{
-					var data = this.initDuByTime(duanwu).duration._data
-					var diff = this.initDuByTime(duanwu).diff
-					if(diff < 0) {
-						this.count = 'done'
-						this.label = '端午节已经过去'
-						this.clearTimer()
-						return
-					}else {
-						this.count = 'counting'
-						this.month = data.months.toString()
-						this.day = data.days.toString()
-						this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
-					}
+          this._initDuanwu()
 				},1000)
 			},
 		}
