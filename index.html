@@ -35,7 +35,7 @@
     			padding-top: 150px;
     		}
     		.btn {
-    			min-width: 200px;
+    			min-width: 100px;
     			height: 36px;
     			font-size: 16px;
     			border: 1px solid #fff;
@@ -176,6 +176,7 @@
 			<button class="btn btn-work" @click="changeType('0')" :class="{active: type == '0'}">下班倒计时</button>
 			<button class="btn btn-new" @click="changeType('2')" :class="{active: type == '2'}">端午节倒计时</button>
 			<button class="btn btn-na" @click="changeType('1')" :class="{active: type == '1'}">国庆节倒计时</button>
+      <button class="btn btn-new" @click="changeType('4')" :class="{active: type == '4'}">元旦倒计时</button>
 			<button class="btn btn-new" @click="changeType('3')" :class="{active: type == '3'}">春节倒计时</button>
 		</div>
 		<div class="count-label">
@@ -214,7 +215,9 @@
 				offWorkMin: 0,
 				nationalDay: '2020-10-01 00:00:00',
 				springFestival: '2021-02-12 00:00:00',
-				duanwu: '2020-06-25 00:00:00'
+				duanwu: '2020-06-25 00:00:00',
+        yuandan: '2021-01-01 00:00:00'
+        
 			}
 		},
 		computed: {
@@ -228,7 +231,9 @@
 					return moment(this.duanwu).format('YYYY年MM月DD日')
 				}else if (type == '3') {
 					return moment(this.springFestival).format('YYYY年MM月DD日')
-				}
+				} else if (type == '4') {
+          return moment(this.yuandan).format('YYYY年MM月DD日')
+        }
 			}
 		},
     watch: {
@@ -238,14 +243,14 @@
           '2': 'img/bg/longzhou.jpg',
           '1': 'img/bg/guoqing.jpg',
           '3': 'img/bg/chunjie.jpeg',
+          '4': 'img/bg/yuandan.jpeg',
         }
-        console.log(bg[val])
         app.style['background-image'] = 'url(' + bg[val] + ')'
       }
     },
 		mounted(){
       let type = localStorage.getItem('type')
-      let arr = ['0', '1', '2', '3']
+      let arr = ['0', '1', '2', '3', '4']
       if (arr.indexOf(type) == -1) {
         type = '0'
       }
@@ -287,6 +292,9 @@
 				}else if (type == '3') {
 					this.typeLabel = '春节'
 					this.initSp()
+				}else if (type == '4') {
+					this.typeLabel = '元旦'
+					this.initYuandan()
 				}
 			},
 			clearTimer() {
@@ -391,6 +399,30 @@
           this._initDuanwu()
 				},1000)
 			},
+      _initYuandan() {
+        var yuandan = this.yuandan
+        var data = this.initDuByTime(yuandan).duration._data
+        var diff = this.initDuByTime(yuandan).diff
+        if(diff < 0) {
+        	this.count = 'done'
+        	this.label = '元旦已经过去'
+        	this.clearTimer()
+        	return
+        }else {
+        	this.count = 'counting'
+        	this.month = data.months.toString()
+        	this.day = data.days.toString()
+        	this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
+        }
+      },
+      initYuandan(){
+        if (!this.timer) {
+          this._initYuandan()
+        }
+      	this.timer = setInterval(()=>{
+          this._initYuandan()
+      	},1000)
+      },
 		}
 	})
 </script>
