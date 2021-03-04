@@ -1,100 +1,120 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title></title>
-    <script src="js/moment.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
-    <style type="text/css">
-    		html {
-    			min-height: 100%;
-    			background: rgba(25,26,77,.8);
-    		}
-    		.count-label{
-    			color: #fff;
-    			font-size: 20px;
-    			text-align: center;
-    			padding-top: 50px;
-    		}
-    		.count-label span {
-    			font-size: 24px;
-    			color: #fff;
-    			font-weight: 700;
-    			margin: 0 4px;
-    		}
-    		.count-label span em {
-    			font-style: normal;
-    			font-size: 28px;
-          font-weight: 700;
-          color: #00FF00;
-    		}
-    		.btn-wrapper{
-    			text-align: center;
-    			padding: 30px 0;
-    			padding-top: 150px;
-    		}
-    		.btn {
-    			min-width: 100px;
-    			height: 36px;
-    			font-size: 16px;
-    			border: 1px solid #fff;
-    			color: #fff;
-    			border-radius: 6px;
-    			background: transparent;
-    			outline: none;
-    			margin: 20px 50px;
-    		}
-    		.btn.active{
-    			background: #eee;
-    			color: #41a3c1;
-    		}
-    		.time-area {
-    			margin-top: 40px;
-    			text-align: center;
-    			color: #fff;
-          padding-top: 20px;
-          /* background: rgba(0,0,0,.65); */
-    		}
-    		.time-area > span {
-    			display: inline-block;
-    			width: 50px;
-    			height: 50px;
-          line-height: 50px;
-    			text-align: center;
-    			margin-right: 2px;
-    			margin-bottom: 10px;
-    			background-position: center;
-    			background-repeat: no-repeat;
-    			background-size: 60%;
-    			background-color: rgba(0,0,0,.85);
-    			vertical-align: middle;
-    			border-radius: 4px;
-    			color: #fff;
-    			font-weight: 600;
-    			font-size: 30px;
-    		}
-    		.time-area > span.label {
-    			width: 30px;
-    			background: transparent;
-    			font-size: 20px;
-    			font-weight: normal;
-    		}
-    		.time-area em {
-    			font-style: normal;
-    			display: inline-block;
-    			vertical-align: middle;
-    			font-size: 20px;
-    			width: 20px;
-    			height: 50px;
-    			text-align: center;
-          line-height:50px;
-    			margin-bottom: 10px;
-    		}
-    		.work-off {
-    			color: #eee;
-    		}
-    		/* .item-0{
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/moment.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			html {
+				min-height: 100%;
+				background: rgba(25, 26, 77, .8);
+			}
+
+			.count-label {
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				color: #fff;
+				font-size: 20px;
+				text-align: center;
+				bottom: 100px;
+				left: 0;
+			}
+
+			.count-label span {
+				font-size: 24px;
+				color: #fff;
+				font-weight: 700;
+				margin: 0 4px;
+			}
+
+			.count-label span em {
+				font-style: normal;
+				font-size: 28px;
+				font-weight: 700;
+				color: #00FF00;
+			}
+
+			.btn-wrapper {
+				text-align: center;
+				padding: 30px 0;
+				padding-top: 150px;
+			}
+
+			.btn {
+				min-width: 100px;
+				height: 36px;
+				font-size: 16px;
+				border: 1px solid #fff;
+				color: #fff;
+				border-radius: 6px;
+				background: transparent;
+				outline: none;
+				margin: 20px 50px;
+			}
+
+			.btn.active {
+				background: #eee;
+				color: #41a3c1;
+			}
+
+			.time-area {
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				text-align: center;
+				color: #fff;
+				padding-top: 10px;
+				background: rgba(0,0,0,.35);
+			}
+
+			.time-area>span {
+				display: inline-block;
+				width: 50px;
+				height: 50px;
+				line-height: 50px;
+				text-align: center;
+				margin-right: 2px;
+				margin-bottom: 10px;
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: 60%;
+				background-color: rgba(0, 0, 0, .85);
+				vertical-align: middle;
+				border-radius: 4px;
+				color: #fff;
+				font-weight: 600;
+				font-size: 30px;
+			}
+
+			.time-area>span.label {
+				width: 30px;
+				background: transparent;
+				font-size: 20px;
+				font-weight: normal;
+			}
+
+			.time-area em {
+				font-style: normal;
+				display: inline-block;
+				vertical-align: middle;
+				font-size: 20px;
+				width: 20px;
+				height: 50px;
+				text-align: center;
+				line-height: 50px;
+				margin-bottom: 10px;
+			}
+
+			.work-off {
+				color: #eee;
+			}
+
+			/* .item-0{
     			background-image: url(img/0.png);
     		}
     		.item-1{
@@ -124,306 +144,326 @@
     		.item-9{
     			background-image: url(img/9.png);
     		} */
-    		@media only screen and (max-width: 640px) {
-    			.btn-wrapper {
-    				padding-top: 50px;
-    			}
-    			.btn {
-    				display: block;
-					width:80%;
+			@media only screen and (max-width: 640px) {
+				.btn-wrapper {
+					padding-top: 30px;
+				}
+				.count-label {
+					bottom: 60px;
+				}
+				.btn {
+					display: block;
+					width: 80%;
 					margin-left: auto;
 					margin-right: auto;
-    			}
-    			.count-label {
-    				font-size: 16px;
-    			}
-    			.count-label span {
-    				font-size: 20px;
-    			}
-    			.count-label span em {
-    				font-size: 16px;
-    			}
-    			.time-area > span,.time-area > span.label{
-    				width: 20px;
-    				height: 24px;
-    				line-height: 24px;
-    				font-size: 14px;
-    			}
-    			.time-area em{
-    				font-size: 14px;
-    				width: 20px;
-    				height: 24px;
-    				line-height: 30px;
-    			}
-    		}
-        #app {
-          position: absolute;
-          top: 0;
-          right: 0;
-          left: 0;
-          bottom: 0;
-          margin: auto;
-          background-position: center;
-          background-repeat: no-repeat;
-          background-size: 100% 100%;
-          background-image: url(img/bg/offwork.jpg);
-        }
-    </style>
-</head>
-<body>
-	<div id="app">
-		<div class="btn-wrapper">
-			<button class="btn btn-work" @click="changeType('0')" :class="{active: type == '0'}">下班倒计时</button>
-			<button class="btn btn-new" @click="changeType('2')" :class="{active: type == '2'}">端午节倒计时</button>
-			<button class="btn btn-na" @click="changeType('1')" :class="{active: type == '1'}">国庆节倒计时</button>
-      <button class="btn btn-new" @click="changeType('4')" :class="{active: type == '4'}">元旦倒计时</button>
-			<button class="btn btn-new" @click="changeType('3')" :class="{active: type == '3'}">春节倒计时</button>
-		</div>
-		<div class="count-label">
-			距离<span>{{typeLabel}}<em>（{{notice}}）</em></span>还有：
-		</div>
-		<div class="time-area" v-if="count == 'counting'">
-			<template v-if="day > 0 || month > 0">
-				<span v-for="(item,index) in month" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'month'+index">{{item}}</span><em>月</em>
-				<span v-for="(item,index) in day" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'day'+index">{{item}}</span><em>天</em>
-			</template>
-			<span v-for="(item, index) in label" :key="index" :class="['item-'+item,{label: item.match(/\D/g)}]">{{item}}</span>
-		</div>
-		<div class="time-area work-off" v-else-if="count == 'done'">
-			{{label}}
-		</div>
-	</div>
-</body>
-<script type="text/javascript">
-	var vm = new Vue({
-		el:'#app',
-		data() {
-			return {
-				msg: {
-					greeting:'hello,world',
-					hello:'hello,hello'
-				},
-				type: '0',
-				typeLabel: '下班',
-				label: '--:--',
-				timer: null,
-				count: 'counting',
-				year: '',
-				month: '',
-				day: '',
-				offWorkHour: 18,
-				offWorkMin: 0,
-				nationalDay: '2020-10-01 00:00:00',
-				springFestival: '2021-02-12 00:00:00',
-				duanwu: '2020-06-25 00:00:00',
-        yuandan: '2021-01-01 00:00:00'
-        
+				}
+
+				.count-label {
+					font-size: 16px;
+				}
+
+				.count-label span {
+					font-size: 20px;
+				}
+
+				.count-label span em {
+					font-size: 16px;
+				}
+
+				.time-area>span,
+				.time-area>span.label {
+					width: 20px;
+					height: 24px;
+					line-height: 24px;
+					font-size: 14px;
+				}
+
+				.time-area em {
+					font-size: 14px;
+					width: 20px;
+					height: 24px;
+					line-height: 30px;
+				}
 			}
-		},
-		computed: {
-			notice() {
-				var type = this.type
-				if (type == '0') {
-					return this.offWorkHour + ':' + (this.offWorkMin < 10 ? ('0' + this.offWorkMin) : this.offWorkMin)
-				} else if (type == '1') {
-					return moment(this.nationalDay).format('YYYY年MM月DD日')
-				}else if (type == '2'){
-					return moment(this.duanwu).format('YYYY年MM月DD日')
-				}else if (type == '3') {
-					return moment(this.springFestival).format('YYYY年MM月DD日')
-				} else if (type == '4') {
-          return moment(this.yuandan).format('YYYY年MM月DD日')
-        }
+
+			#app {
+				position: absolute;
+				top: 0;
+				right: 0;
+				left: 0;
+				bottom: 0;
+				margin: auto;
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+				background-image: url(img/bg/offwork.jpg);
 			}
-		},
-    watch: {
-      type(val) {
-        var bg = {
-          '0': 'img/bg/offwork.jpg',
-          '2': 'img/bg/longzhou.jpg',
-          '1': 'img/bg/guoqing.jpg',
-          '3': 'img/bg/chunjie.jpeg',
-          '4': 'img/bg/yuandan.jpeg',
-        }
-        app.style['background-image'] = 'url(' + bg[val] + ')'
-      }
-    },
-		mounted(){
-      let type = localStorage.getItem('type')
-      let arr = ['0', '1', '2', '3', '4']
-      if (arr.indexOf(type) == -1) {
-        type = '0'
-      }
-      this.changeType(type)
-		},
-		methods:{
-			initDuration() {
-				var start = moment()
-				let offWorkHour = this.offWorkHour
-				let offWorkMin = this.offWorkMin
-				var end = moment().hour(offWorkHour).minute(offWorkMin).second(0)
-				var diff = end.diff(start)
-				var duration = moment.duration(diff);
-				return {duration: duration, diff: diff}
-			},
-			initDuByTime(time) {
-				var start = moment()
-				var end = moment(time)
-				var diff = end.diff(start)
-				var duration = moment.duration(diff);
-				return {duration: duration, diff: diff}
-			},
-			format(num) {
-				return num >= 10 ? num : ('0' + num)
-			},
-			changeType(type) {
-        localStorage.setItem('type', type)
-				this.type = type
-				this.clearTimer()
-				if(type == '0') {
-					this.initTimer()
-					this.typeLabel = '下班'
-				} else if(type == '1') {
-					this.initNa()
-					this.typeLabel = '国庆'
-				} else if (type == '2'){
-					this.initDuanwu()
-					this.typeLabel = '端午节'
-				}else if (type == '3') {
-					this.typeLabel = '春节'
-					this.initSp()
-				}else if (type == '4') {
-					this.typeLabel = '元旦'
-					this.initYuandan()
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="btn-wrapper">
+				<button class="btn btn-work" @click="changeType('0')" :class="{active: type == '0'}">下班倒计时</button>
+				<button class="btn btn-new" @click="changeType('1')" :class="{active: type == '1'}">清明节倒计时</button>
+				<button class="btn btn-new" @click="changeType('2')" :class="{active: type == '2'}">劳动节倒计时</button>
+				<button class="btn btn-new" @click="changeType('3')" :class="{active: type == '3'}">端午节倒计时</button>
+				<button class="btn btn-new" @click="changeType('4')" :class="{active: type == '4'}">中秋节倒计时</button>
+				<button class="btn btn-new" @click="changeType('5')" :class="{active: type == '5'}">国庆节倒计时</button>
+				<button class="btn btn-new" @click="changeType('6')" :class="{active: type == '6'}">元旦倒计时</button>
+				<button class="btn btn-new" @click="changeType('7')" :class="{active: type == '7'}">春节倒计时</button>
+			</div>
+			<div class="count-label">
+				距离<span>{{typeLabel}}<em>（{{notice}}）</em></span>还有：
+			</div>
+			<div class="time-area" v-if="count == 'counting'">
+				<template v-if="day > 0 || month > 0">
+					<span v-for="(item,index) in month" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'month'+index">{{item}}</span><em>月</em>
+					<span v-for="(item,index) in day" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'day'+index">{{item}}</span><em>天</em>
+				</template>
+				<span v-for="(item, index) in label" :key="index" :class="['item-'+item,{label: item.match(/\D/g)}]">{{item}}</span>
+			</div>
+			<div class="time-area work-off" v-else-if="count == 'done'">
+				{{label}}
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: '#app',
+			data() {
+				return {
+					msg: {
+						greeting: 'hello,world',
+						hello: 'hello,hello'
+					},
+					type: '0',
+					typeLabel: '下班',
+					label: '--:--',
+					timer: null,
+					count: 'counting',
+					year: '',
+					month: '',
+					day: '',
+					offWorkHour: 18,
+					offWorkMin: 0,
+					holidays: [{
+							name: 'qingming',
+							label: '清明节',
+							qingming: '2021-04-03 00:00:00'
+						},
+						{
+							name: 'laodong',
+							label: '劳动节',
+							time: '2021-05-01 00:00:00'
+						},
+						{
+							name: 'duanwu',
+							label: '端午节',
+							time: '2021-06-12 00:00:00'
+						},
+						{
+							name: 'zhongqiu',
+							label: '中秋节',
+							time: '2021-09-19 00:00:00'
+						},
+						{
+							name: 'guoqing',
+							label: '国庆节',
+							time: '2021-10-01 00:00:00'
+						},
+						{
+							name: 'yuandan',
+							label: '元旦',
+							time: '2022-01-01 00:00:00'
+						},
+						{
+							name: 'chunjie',
+							label: '春节',
+							time: '2022-01-31 00:00:00'
+						}
+					],
+					qingming: '2021-04-03 00:00:00',
+					laodong: '2021-05-01 00:00:00',
+					duanwu: '2021-06-12 00:00:00',
+					zhongqiu: '2021-09-19 00:00:00',
+					guoqing: '2021-10-01 00:00:00',
+					yuandan: '2022-01-01 00:00:00',
+					chunjie: '2022-01-31 00:00:00'
 				}
 			},
-			clearTimer() {
-				this.year = ''
-				this.month = ''
-				this.day = ''
-				// this.label = '--:--:--'
-				clearInterval(this.timer)
-        this.timer = null
+			computed: {
+				notice() {
+					var type = this.type
+					if (type == '0') {
+						return this.offWorkHour + ':' + (this.offWorkMin < 10 ? ('0' + this.offWorkMin) : this.offWorkMin)
+					} else if (type == '1') {
+						return moment(this.qingming).format('YYYY年MM月DD日')
+					} else if (type == '2') {
+						return moment(this.laodong).format('YYYY年MM月DD日')
+					} else if (type == '3') {
+						return moment(this.duanwu).format('YYYY年MM月DD日')
+					} else if (type == '4') {
+						return moment(this.zhongqiu).format('YYYY年MM月DD日')
+					} else if (type == '5') {
+						return moment(this.guoqing).format('YYYY年MM月DD日')
+					} else if (type == '6') {
+						return moment(this.yuandan).format('YYYY年MM月DD日')
+					} else if (type == '7') {
+						return moment(this.chunjie).format('YYYY年MM月DD日')
+					}
+				}
 			},
-      _initTime(){
-        var data = this.initDuration().duration._data
-        var diff = this.initDuration().diff
-        if(diff < 0) {
-        	this.count = 'done'
-        	this.label = '已经下班了哦，你还在加班么？'
-        	this.clearTimer()
-        	return
-        }else {
-        	this.count = 'counting'
-        	this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
-        }
-      },
-			initTimer(){
-        if (!this.timer) {
-          this._initTime()
-        }
-				this.timer = setInterval(()=>{
-					this._initTime()
-				},1000)
+			watch: {
+				type(val) {
+					var bg = {
+						'0': 'img/bg/offwork.jpg',
+						'1': 'img/bg/qingming.jpg',
+						'2': 'img/bg/laodong.jpg',
+						'3': 'img/bg/duanwu.jpg',
+						'4': 'img/bg/zhongqiu.jpg',
+						'5': 'img/bg/guoqing.jpg',
+						'6': 'img/bg/yuandan.jpg',
+						'7': 'img/bg/chunjie.jpeg',
+					}
+					app.style['background-image'] = 'url(' + bg[val] + ')'
+				}
 			},
-      _initNa() {
-        var nationalDay = this.nationalDay
-        var data = this.initDuByTime(nationalDay).duration._data
-        var diff = this.initDuByTime(nationalDay).diff
-        if(diff < 0) {
-        	this.count = 'done'
-        	this.label = '国庆节已经过去'
-        	this.clearTimer()
-        	return
-        }else {
-        	this.count = 'counting'
-        
-        	this.month = data.months.toString()
-        	this.day = data.days.toString()
-        	this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
-        }
-      },
-			initNa(){
-        if (!this.timer) {
-          this._initNa()
-        }
-				this.timer = setInterval(()=>{
-          this._initNa()
-				},1000)
+			mounted() {
+				let type = localStorage.getItem('type')
+				let arr = ['0', '1', '2', '3', '4', '5']
+				if (arr.indexOf(type) == -1) {
+					type = '0'
+				}
+				this.changeType(type)
 			},
-      _initSp() {
-        var springFestival = this.springFestival
-        var data = this.initDuByTime(springFestival).duration._data
-        var diff = this.initDuByTime(springFestival).diff
-        if(diff < 0) {
-        	this.count = 'done'
-        	this.label = '春节已经过去'
-        	this.clearTimer()
-        	return
-        }else {
-        	this.count = 'counting'
-        	this.month = data.months.toString()
-        	this.day = data.days.toString()
-        	this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
-        }
-      },
-			initSp(){
-        if (!this.tiemr) {
-          this._initSp()
-        }
-				this.timer = setInterval(()=>{
-          this._initSp()
-				},1000)
-			},
-      _initDuanwu() {
-        var duanwu = this.duanwu
-        var data = this.initDuByTime(duanwu).duration._data
-        var diff = this.initDuByTime(duanwu).diff
-        if(diff < 0) {
-        	this.count = 'done'
-        	this.label = '端午节已经过去'
-        	this.clearTimer()
-        	return
-        }else {
-        	this.count = 'counting'
-        	this.month = data.months.toString()
-        	this.day = data.days.toString()
-        	this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
-        }
-      },
-			initDuanwu(){
-        if (!this.timer) {
-          this._initDuanwu()
-        }
-				this.timer = setInterval(()=>{
-          this._initDuanwu()
-				},1000)
-			},
-      _initYuandan() {
-        var yuandan = this.yuandan
-        var data = this.initDuByTime(yuandan).duration._data
-        var diff = this.initDuByTime(yuandan).diff
-        if(diff < 0) {
-        	this.count = 'done'
-        	this.label = '元旦已经过去'
-        	this.clearTimer()
-        	return
-        }else {
-        	this.count = 'counting'
-        	this.month = data.months.toString()
-        	this.day = data.days.toString()
-        	this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
-        }
-      },
-      initYuandan(){
-        if (!this.timer) {
-          this._initYuandan()
-        }
-      	this.timer = setInterval(()=>{
-          this._initYuandan()
-      	},1000)
-      },
-		}
-	})
-</script>
+			methods: {
+				initDuration() {
+					var start = moment()
+					let offWorkHour = this.offWorkHour
+					let offWorkMin = this.offWorkMin
+					var end = moment().hour(offWorkHour).minute(offWorkMin).second(0)
+					var diff = end.diff(start)
+					var duration = moment.duration(diff);
+					return {
+						duration: duration,
+						diff: diff
+					}
+				},
+				initDuByTime(time) {
+					var start = moment()
+					var end = moment(time)
+					var diff = end.diff(start)
+					var duration = moment.duration(diff);
+					return {
+						duration: duration,
+						diff: diff
+					}
+				},
+				format(num) {
+					return num >= 10 ? num : ('0' + num)
+				},
+				changeType(type) {
+					localStorage.setItem('type', type)
+					this.type = type
+					this.clearTimer()
+					if (type == '0') {
+						this.initTimer()
+						this.typeLabel = '下班'
+					} else {
+						this.initTime()
+					}
+				},
+				clearTimer() {
+					this.year = ''
+					this.month = ''
+					this.day = ''
+					// this.label = '--:--:--'
+					clearInterval(this.timer)
+					this.timer = null
+				},
+				_initTimer() {
+					var data = this.initDuration().duration._data
+					var diff = this.initDuration().diff
+					if (diff < 0) {
+						this.count = 'done'
+						this.label = '已经下班了哦，你还在加班么？'
+						this.clearTimer()
+						return
+					} else {
+						this.count = 'counting'
+						this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
+					}
+				},
+				initTimer() {
+					if (!this.timer) {
+						this._initTimer()
+					}
+					this.timer = setInterval(() => {
+						this._initTimer()
+					}, 1000)
+				},
+				_initTime() {
+					var type = this.type
+					var time = ''
+					var label = ''
+					switch (type){
+						case '1':
+							time = this.qingming
+							label = '清明节'
+							break;
+						case '2':
+							time = this.laodong
+							label = '劳动节'
+							break;
+						case '3':
+							time = this.duanwu
+							label = '端午节'
+							break;
+						case '4':
+							time = this.zhongqiu
+							label = '中秋节'
+							break;
+						case '5':
+							time = this.guoqing
+							label = '国庆节'
+							break;
+						case '6':
+							time = this.yuandan
+							label = '元旦节'
+							break;
+						case '7':
+							time = this.chunjie
+							label = '春节'
+							break;
+						default:
+							break;
+					}
+					console.log(time, label)
+					var data = this.initDuByTime(time).duration._data
+					var diff = this.initDuByTime(time).diff
+					if (diff < 0) {
+						this.count = 'done'
+						this.label = label + '已经过去'
+						this.clearTimer()
+						return
+					} else {
+						this.count = 'counting'
+						this.month = data.months.toString()
+						this.day = data.days.toString()
+						this.typeLabel = label
+						this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
+						console.log(this.label)
+					}
+				},
+				initTime() {
+					if (!this.timer) {
+						this._initTime()
+					}
+					this.timer = setInterval(() => {
+						this._initTime()
+					}, 1000)
+				}
+			}
+		})
+	</script>
 </html>
