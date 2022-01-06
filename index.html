@@ -211,6 +211,7 @@
 				<button class="btn btn-new" @click="changeType('5')" :class="{active: type == '5'}">国庆节倒计时</button>
 				<button class="btn btn-new" @click="changeType('6')" :class="{active: type == '6'}">元旦倒计时</button>
 				<button class="btn btn-new" @click="changeType('7')" :class="{active: type == '7'}">春节倒计时</button>
+				<button class="btn btn-new" @click="changeType('8')" :class="{active: type == '8'}">crystal的春节</button>
 			</div>
 			<div class="count-label">
 				距离<span>{{typeLabel}}<em>（{{notice}}）</em></span>还有：
@@ -280,6 +281,11 @@
 							name: 'chunjie',
 							label: '春节',
 							time: '2022-01-31 00:00:00'
+						},
+						{
+							name: 'other',
+							label: 'crystal的春节',
+							time: '2022-01-25 00:00:00'
 						}
 					],
 					qingming: '2021-04-03 00:00:00',
@@ -288,7 +294,8 @@
 					zhongqiu: '2021-09-19 00:00:00',
 					guoqing: '2021-10-01 00:00:00',
 					yuandan: '2022-01-01 00:00:00',
-					chunjie: '2022-01-31 00:00:00'
+					chunjie: '2022-01-31 00:00:00',
+					other: '2022-01-25 00:00:00'
 				}
 			},
 			computed: {
@@ -310,6 +317,8 @@
 						return moment(this.yuandan).format('YYYY年MM月DD日')
 					} else if (type == '7') {
 						return moment(this.chunjie).format('YYYY年MM月DD日')
+					}else if (type == '8') {
+						return moment(this.other).format('YYYY年MM月DD日')
 					}
 				}
 			},
@@ -324,6 +333,7 @@
 						'5': 'img/bg/guoqing.jpg',
 						'6': 'img/bg/yuandan.jpg',
 						'7': 'img/bg/chunjie.jpeg',
+						'8': 'img/bg/chunjie.jpeg',
 					}
 					app.style['background-image'] = 'url(' + bg[val] + ')'
 				}
@@ -434,6 +444,10 @@
 						case '7':
 							time = this.chunjie
 							label = '春节'
+							break;
+						case '8':
+							time = this.other
+							label = 'crystal的春节'
 							break;
 						default:
 							break;
