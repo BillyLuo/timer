@@ -13,7 +13,11 @@
 		<div class="setting">
 			<img id="icon" src="img/setting.png" alt="">
 			<div class="setting-content" id="btn">
-				<button onclick="randomImg(true)">不行，我要换个背景</button>
+				<button onclick="randomImg('random')">不行，我要换个背景</button>
+				<div class="btns">
+					<a href="javascript:;" onclick="randomImg(-1)">上一个</a>
+					<a href="javascript:;" onclick="randomImg(1)">下一个</a>
+				</div>
 			</div>
 			<div id="mask" class="mask"></div>
 		</div>
@@ -56,14 +60,19 @@
 				var localIndex = localStorage.getItem('index')
 				var index = Math.floor(Math.random()*mobilearr.length)
 				if (flag && localIndex) {
-					console.log('hi', localIndex)
-					index = localIndex*1 + 1
+					if (flag == 1) {
+						index = localIndex*1 + 1
+					} else if (flag == -1) {
+						index = localIndex*1 - 1
+					}
 				} else if (localIndex) {
 					index = localIndex
 				}
 				if (index >= mobilearr.length) {
 					index = 0
-				} 
+				} else if (index < 0) {
+					index = mobilearr.length - 1
+				}
 				localStorage.setItem('index', index)
 				document.body.style['background-image'] = 'url(./img/'+mobilearr[index]+')'
 			}
