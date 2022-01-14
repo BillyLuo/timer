@@ -10,6 +10,13 @@
 		<script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.11.0/vconsole.min.js"></script>
 	</head>
 	<body>
+		<div class="setting">
+			<img id="icon" src="img/setting.png" alt="">
+			<div class="setting-content" id="btn">
+				<button onclick="randomImg(true)">不行，我要换个背景</button>
+			</div>
+			<div id="mask" class="mask"></div>
+		</div>
 		<div class="app">
 			<div class="app-label">距离春节还有<span>：</span></div>
 			<div class="tick" data-did-init="handleTickInit">
@@ -25,6 +32,42 @@
 		</div>
 		<script>
 			// var vConsole = new VConsole();
+			var icon = document.getElementById('icon')
+			var btn = document.getElementById('btn')
+			var mask = document.getElementById('mask')
+			icon.onclick = function () {
+				if (btn.style.display == 'block') {
+					btn.style.display = 'none';
+					mask.style.display = 'none'
+				} else {
+					btn.style.display = 'block';
+					mask.style.display = 'block'
+				}
+			}
+			mask.onclick = function () {
+				btn.style.display = 'none'
+				mask.style.display = 'none'
+			}
+			var mobilearr = ['mobile.png', 'mobile2.jfif', 'mobile3.jfif', 'mobile4.jfif', 'mobile5.jfif', 'mobile6.jfif', 'mobile7.jfif', 'desktop.png',
+				'mobile8.png', 'mobile9.jfif', 'mobile10.jfif', 'mobile11.jfif', 'mobile12.jfif', 'mobile13.jfif', 'mobile14.jfif', 'mobile15.jfif', 'mobile16.jfif',
+				'mobile17.jfif', 'mobile18.jfif', 'mobile19.jfif', 'mobile20.jfif', 'mobile21.jfif', 'mobile22.jfif', 'mobile8.jfif'
+			]
+			function randomImg(flag) {
+				var localIndex = localStorage.getItem('index')
+				var index = Math.floor(Math.random()*mobilearr.length)
+				if (flag && localIndex) {
+					console.log('hi', localIndex)
+					index = localIndex*1 + 1
+				} else if (localIndex) {
+					index = localIndex
+				}
+				if (index >= mobilearr.length) {
+					index = 0
+				} 
+				localStorage.setItem('index', index)
+				document.body.style['background-image'] = 'url(./img/'+mobilearr[index]+')'
+			}
+			randomImg()
 			function handleTickInit(tick) {
 
 				// uncomment to set labels to different language
