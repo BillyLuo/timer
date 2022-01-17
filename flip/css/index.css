@@ -78,8 +78,8 @@ html {
 }
 body {
 	padding: 0 2%;
-	background: url(../img/mobile.png) no-repeat center;
-	background-size: 100% 100%;
+	background: url(../img/mobile.png) repeat center;
+	background-size: 100% auto;
 }
 .app {
 	height: 100%;

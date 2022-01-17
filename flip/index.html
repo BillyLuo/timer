@@ -34,6 +34,7 @@
 				</div>
 			</div>
 		</div>
+		<script src="js/hammer.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			// var vConsole = new VConsole();
 			var icon = document.getElementById('icon')
@@ -134,6 +135,27 @@
 					// document.querySelector('.tick-onended-message').style.display = '';
 				};
 			}
+			// Get a reference to an element
+			var square = document.querySelector('.app');
+			console.log(square)
+			
+			// Create a manager to manager the element
+			var manager = new Hammer.Manager(square);
+			
+			// Create a recognizer
+			var R = new Hammer.Rotate({
+			  threshold: 180,
+				pointers: 3
+			});
+			
+			// Add the recognizer to the manager
+			manager.add(R);
+			
+			// Subscribe to desired event
+			manager.on('rotateend', function(e) {
+			  document.body.style.backgroundImage = 'url('+ 'http://api.nmb.show/xiaojiejie2.php?t=' + Date.now() +')'
+			});
+
 		</script>
 	</body>
 </html>
