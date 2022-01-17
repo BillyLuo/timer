@@ -147,13 +147,20 @@
 			  threshold: 180,
 				pointers: 3
 			});
+			var r2 = new Hammer.Pinch({
+				pointers: 4
+			});
 			
 			// Add the recognizer to the manager
 			manager.add(R);
+			manager.add(r2)
 			
 			// Subscribe to desired event
 			manager.on('rotateend', function(e) {
 			  document.body.style.backgroundImage = 'url('+ 'http://api.nmb.show/xiaojiejie2.php?t=' + Date.now() +')'
+			});
+			manager.on('pinchend', function(e) {
+			  document.body.style.backgroundImage = 'url('+ 'https://api.nmb.show/1985acg.php?t=' + Date.now() +')'
 			});
 
 		</script>
