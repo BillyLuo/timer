@@ -150,9 +150,13 @@
 			var r2 = new Hammer.Pinch({
 				pointers: 5
 			})
+			var r3 = new Hammer.Swipe({
+				threshold: 20
+			})
 			// Add the recognizer to the manager
 			manager.add(R);
 			manager.add(r2)
+			manager.add(r3)
 			
 			// Subscribe to desired event
 			manager.on('pinchend', function(e) {
@@ -160,6 +164,12 @@
 			});
 			manager.on('rotateend', function(e) {
 			  document.body.style.backgroundImage = 'url('+ 'https://api.nmb.show/1985acg.php?t=' + Date.now() +')'
+			})
+			manager.on('swipeleft', function(e) {
+			  randomImg(1)
+			})
+			manager.on('swiperight', function(e) {
+			  randomImg(-1)
 			})
 		</script>
 	</body>
