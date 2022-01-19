@@ -153,10 +153,14 @@
 			var r3 = new Hammer.Swipe({
 				threshold: 20
 			})
+			var r4 = new Hammer.Tap({
+				pointers: 2
+			})
 			// Add the recognizer to the manager
 			manager.add(R);
 			manager.add(r2)
 			manager.add(r3)
+			manager.add(r4)
 			
 			// Subscribe to desired event
 			manager.on('pinchend', function(e) {
@@ -170,6 +174,9 @@
 			})
 			manager.on('swiperight', function(e) {
 			  randomImg(-1)
+			})
+			manager.on('tap', function(e) {
+			  randomImg('random')
 			})
 		</script>
 	</body>
