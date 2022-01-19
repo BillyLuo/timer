@@ -79,7 +79,7 @@ html {
 body {
 	padding: 0 2%;
 	background: url(../img/mobile.png) repeat center;
-	background-size: 100% auto;
+	background-size: auto 100%;
 }
 .app {
 	height: 100%;
