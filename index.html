@@ -285,7 +285,7 @@
 						{
 							name: 'other',
 							label: 'crystal的春节',
-							time: '2022-01-25 00:00:00'
+							time: '2022-01-24 18:00:00'
 						}
 					],
 					qingming: '2021-04-03 00:00:00',
@@ -295,7 +295,7 @@
 					guoqing: '2021-10-01 00:00:00',
 					yuandan: '2022-01-01 00:00:00',
 					chunjie: '2022-01-31 00:00:00',
-					other: '2022-01-25 00:00:00'
+					other: '2022-01-24 18:00:00'
 				}
 			},
 			computed: {
@@ -318,7 +318,7 @@
 					} else if (type == '7') {
 						return moment(this.chunjie).format('YYYY年MM月DD日')
 					}else if (type == '8') {
-						return moment(this.other).format('YYYY年MM月DD日')
+						return moment(this.other).format('YYYY年MM月DD日 HH:mm:ss')
 					}
 				}
 			},
