@@ -154,12 +154,24 @@
     		.item-9{
     			background-image: url(img/9.png);
     		} */
+			#app {
+				position: absolute;
+				top: 0;
+				right: 0;
+				left: 0;
+				bottom: 0;
+				margin: auto;
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: 80% auto;
+				background-image: url(img/bg/1.jpg);
+			}
 			@media only screen and (max-width: 640px) {
 				.btn-wrapper {
 					padding-top: 30px;
 				}
 				.count-label {
-					bottom: 60px;
+					bottom: 50px;
 				}
 				.btn {
 					display: block;
@@ -179,7 +191,12 @@
 				.count-label span em {
 					font-size: 16px;
 				}
-
+				#app {
+					background-size: 100% auto;
+				}
+				.time-area {
+					bottom: 0;
+				}
 				.time-area>span,
 				.time-area>span.label {
 					width: 20px;
@@ -193,30 +210,6 @@
 					width: 20px;
 					height: 24px;
 					line-height: 30px;
-				}
-			}
-
-			#app {
-				position: absolute;
-				top: 0;
-				right: 0;
-				left: 0;
-				bottom: 0;
-				margin: auto;
-				background-position: center;
-				background-repeat: no-repeat;
-				background-size: 80% auto;
-				background-image: url(img/bg/1.jpg);
-			}
-			@media screen and (max-width: 750px) {
-				#app {
-					background-size: 100% auto;
-				}
-				.count-label {
-					bottom: 100px;
-				}
-				.time-area {
-					bottom: 0;
 				}
 			}
 		</style>
