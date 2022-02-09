@@ -9,18 +9,18 @@
 		<style type="text/css">
 			html {
 				min-height: 100%;
-				background: rgba(25, 26, 77, .8);
+				background: #000;
+				font-family: -apple-system,Helvetica,sans-serif;
 			}
 
 			.count-label {
 				position: fixed;
-				bottom: 0;
 				left: 0;
 				width: 100%;
 				color: #fff;
 				font-size: 20px;
 				text-align: center;
-				bottom: 100px;
+				bottom: 50%;
 				left: 0;
 			}
 
@@ -35,10 +35,12 @@
 				font-style: normal;
 				font-size: 28px;
 				font-weight: 700;
-				color: #00FF00;
+				color: #09ff09;
 			}
 
 			.btn-wrapper {
+				width: 80%;
+				margin: 0 auto;
 				text-align: center;
 				padding: 30px 0;
 				padding-top: 150px;
@@ -49,21 +51,28 @@
 				height: 36px;
 				font-size: 16px;
 				border: 1px solid #fff;
-				color: #fff;
+				border: 0;
+				color: #f9f9f9;
 				border-radius: 6px;
-				background: transparent;
+				background: linear-gradient(to right, transparent,rgba(0,0,0,.45), transparent);
+				/* background: transparent; */
 				outline: none;
-				margin: 20px 50px;
+				margin: 20px 30px;
+				cursor: pointer;
 			}
 
 			.btn.active {
-				background: #eee;
-				color: #41a3c1;
+				background: linear-gradient(to right, transparent,rgba(0,0,0,1), transparent);
+				background: transparent;
+				color: #09ff09;
+				border: 0;
+				font-weight: 600;
+				font-size: 20px;
 			}
 
 			.time-area {
 				position: fixed;
-				bottom: 0;
+				bottom: 35%;
 				left: 0;
 				width: 100%;
 				text-align: center;
@@ -112,6 +121,7 @@
 
 			.work-off {
 				color: #eee;
+				padding: 6px;
 			}
 
 			/* .item-0{
@@ -194,12 +204,19 @@
 				bottom: 0;
 				margin: auto;
 				background-position: center;
-				background-size: auto 100%;
-				background-image: url(img/bg/offwork.jpg);
+				background-repeat: no-repeat;
+				background-size: 80% auto;
+				background-image: url(img/bg/1.jpg);
 			}
 			@media screen and (max-width: 750px) {
 				#app {
-					background-size: 100% 100%;
+					background-size: 100% auto;
+				}
+				.count-label {
+					bottom: 100px;
+				}
+				.time-area {
+					bottom: 0;
 				}
 			}
 		</style>
@@ -329,15 +346,15 @@
 			watch: {
 				type(val) {
 					var bg = {
-						'0': 'img/bg/offwork.jpg',
+						'0': 'img/bg/1.jpg',
 						'1': 'img/bg/qingming.jpg',
 						'2': 'img/bg/laodong.jpg',
 						'3': 'img/bg/duanwu.jpg',
 						'4': 'img/bg/zhongqiu.jpg',
 						'5': 'img/bg/guoqing.jpg',
 						'6': 'img/bg/yuandan.jpg',
-						'7': 'img/bg/chunjie.jpeg',
-						'8': 'img/bg/chunjie.jpeg',
+						'7': 'img/bg/chunjie.jpg',
+						'8': 'img/bg/chunjie.jpg',
 					}
 					app.style['background-image'] = 'url(' + bg[val] + ')'
 				}
@@ -400,7 +417,7 @@
 					var diff = this.initDuration().diff
 					if (diff < 0) {
 						this.count = 'done'
-						this.label = '已经下班了哦，你还在加班么？'
+						this.label = '聪明的人已经下班了，你还在加班么？'
 						this.clearTimer()
 						return
 					} else {
