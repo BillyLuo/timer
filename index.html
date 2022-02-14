@@ -80,6 +80,9 @@
 				padding-top: 10px;
 				background: rgba(0,0,0,.35);
 			}
+			.days-area {
+				bottom: 20%;
+			}
 
 			.time-area>span {
 				display: inline-block;
@@ -171,13 +174,14 @@
 					padding-top: 30px;
 				}
 				.count-label {
-					bottom: 50px;
+					bottom: 70px;
 				}
 				.btn {
 					display: block;
 					width: 80%;
 					margin-left: auto;
 					margin-right: auto;
+					margin-bottom: 10px;
 				}
 
 				.count-label {
@@ -195,21 +199,27 @@
 					background-size: 100% auto;
 				}
 				.time-area {
+					bottom: 30px;
+				}
+				.days-area {
 					bottom: 0;
+					font-size: 14px;
 				}
 				.time-area>span,
 				.time-area>span.label {
 					width: 20px;
 					height: 24px;
 					line-height: 24px;
-					font-size: 14px;
+					font-size: 12px;
 				}
-
+				.time-area span.label {
+					width: 16px;
+				}
 				.time-area em {
-					font-size: 14px;
-					width: 20px;
+					font-size: 12px;
+					width: 14px;
 					height: 24px;
-					line-height: 30px;
+					line-height: 24px;
 				}
 			}
 		</style>
@@ -240,6 +250,16 @@
 			<div class="time-area work-off" v-else-if="count == 'done'">
 				{{label}}
 			</div>
+			<div class="time-area days-area" v-if="count == 'counting'">
+				<template v-if="days && type != 0">
+					<em>约</em>
+					<span v-for="(item,index) in days" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'day'+index">{{item}}</span><em>天</em>
+				</template>
+				<template v-if="type == '0'">
+					<em>约</em>
+					<span v-for="(item,index) in minutes" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'day'+index">{{item}}</span><em>分</em>
+				</template>
+			</div>
 		</div>
 	</body>
 	<script type="text/javascript">
@@ -259,6 +279,8 @@
 					year: '',
 					month: '',
 					day: '',
+					days: '',
+					minutes: '',
 					offWorkHour: 18,
 					offWorkMin: 0,
 					holidays: [{
@@ -340,11 +362,11 @@
 				type(val) {
 					var bg = {
 						'0': 'img/bg/1.jpg',
-						'1': 'img/bg/qingming.jpg',
+						'1': 'img/bg/qingming.png',
 						'2': 'img/bg/laodong.jpg',
-						'3': 'img/bg/duanwu.jpg',
+						'3': 'img/bg/duanwu.png',
 						'4': 'img/bg/zhongqiu.jpg',
-						'5': 'img/bg/guoqing.jpg',
+						'5': 'img/bg/guoqing.png',
 						'6': 'img/bg/yuandan.jpg',
 						'7': 'img/bg/chunjie.jpg',
 						'8': 'img/bg/chunjie.jpg',
@@ -368,6 +390,8 @@
 					var end = moment().hour(offWorkHour).minute(offWorkMin).second(0)
 					var diff = end.diff(start)
 					var duration = moment.duration(diff);
+					var minutes = duration.asMinutes()
+					this.minutes = Math.ceil(minutes) + ''
 					return {
 						duration: duration,
 						diff: diff
@@ -378,6 +402,8 @@
 					var end = moment(time)
 					var diff = end.diff(start)
 					var duration = moment.duration(diff);
+					const days = duration.asDays()
+					this.days = Math.ceil(days) + ''
 					return {
 						duration: duration,
 						diff: diff
