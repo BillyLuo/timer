@@ -165,9 +165,9 @@
 				bottom: 0;
 				margin: auto;
 				background-position: center;
-				background-repeat: no-repeat;
-				background-size: 80% auto;
-				background-image: url(img/bg/1.jpg);
+				background-repeat: repeat;
+				background-size: auto 80%;
+				background-image: url(img/bg/n1.jpg);
 			}
 			@media only screen and (max-width: 640px) {
 				.btn-wrapper {
@@ -361,15 +361,15 @@
 			watch: {
 				type(val) {
 					var bg = {
-						'0': 'img/bg/1.jpg',
-						'1': 'img/bg/qingming.png',
-						'2': 'img/bg/laodong.jpg',
-						'3': 'img/bg/duanwu.png',
-						'4': 'img/bg/zhongqiu.jpg',
-						'5': 'img/bg/guoqing.png',
-						'6': 'img/bg/yuandan.jpg',
-						'7': 'img/bg/chunjie.jpg',
-						'8': 'img/bg/chunjie.jpg',
+						'0': 'img/bg/n1.jpg',
+						'1': 'img/bg/n2.jpg',
+						'2': 'img/bg/n3.jpg',
+						'3': 'img/bg/n4.jpg',
+						'4': 'img/bg/n5.jpg',
+						'5': 'img/bg/n6.jpg',
+						'6': 'img/bg/n7.jpg',
+						'7': 'img/bg/n8.jpg',
+						'8': 'img/bg/n9.jpg',
 					}
 					app.style['background-image'] = 'url(' + bg[val] + ')'
 				}
