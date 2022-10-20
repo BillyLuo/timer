@@ -75,7 +75,8 @@
 					index = mobilearr.length - 1
 				}
 				localStorage.setItem('index', index)
-				document.body.style['background-image'] = 'url(./img/'+mobilearr[index]+')'
+				// document.body.style['background-image'] = 'url(./img/'+mobilearr[index]+')'
+				document.body.style['background'] = '#fff'
 			}
 			randomImg()
 			function handleTickInit(tick) {
@@ -115,11 +116,10 @@
 				// '2018-01-15T10:00:00+01:00'  to count down to the 15th of January 2018 at 10 o'clock in timezone GMT+1
 
 				// create the countdown counter
-				var counter = Tick.count.down('2023-01-01T00:00:00', {
+				window.counter = Tick.count.down('2023-01-01T00:00:00', {
 					format: ['d', 'h', 'm', 's'],
 					interval: 1000
 				});
-
 				counter.onupdate = function(value) {
 					tick.value = value;
 				};

@@ -12,7 +12,7 @@
 .tick-label {
 	margin-top: 1.8em;
 	font-size: 1.2em;
-	color: #eee !important;
+	color: rgba(50, 50, 50, .75);
 	font-weight: 600;
 }
 
@@ -78,7 +78,7 @@ html {
 }
 body {
 	padding: 0 2%;
-	background: url(../img/mobile.png) repeat center;
+	/* background: url(../img/mobile.png) repeat center; */
 	background-size: auto 100%;
 }
 .app {
@@ -88,11 +88,13 @@ body {
 	justify-content: center;
 }
 .app-label {
-	font-size: 20px;
+	font-size: 28px;
 	font-weight: 500;
 	margin-bottom: 2em;
-	color: #fff;
 	text-align: center;
+	/* background: linear-gradient(to right, red, blue);
+	-webkit-background-clip: text;
+	color: transparent; */
 }
 .setting {
 	position: fixed;
