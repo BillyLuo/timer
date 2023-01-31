@@ -240,7 +240,6 @@
 				距离<span>{{typeLabel}}<em>（{{notice}}）</em></span>还有：
 			</div>
 			<div class="time-area" v-if="count == 'counting'">
-				{{month}}
 				<template v-if="year > 0">
 					<span v-for="(item,index) in year" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'year'+index">{{item}}</span><em>年</em>
 					<span v-for="(item,index) in month" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'month'+index">{{item}}</span><em>月</em>
