@@ -234,14 +234,19 @@
 				<button class="btn btn-new" @click="changeType('4')" :class="{active: type == '4'}">中秋节倒计时</button>
 				<button class="btn btn-new" @click="changeType('5')" :class="{active: type == '5'}">国庆节倒计时</button>
 				<button class="btn btn-new" @click="changeType('6')" :class="{active: type == '6'}">元旦倒计时</button>
-				<button class="btn btn-new" @click="changeType('7')" :class="{active: type == '7'}">春节倒计时</button>
-				<button v-if="false" class="btn btn-new" @click="changeType('8')" :class="{active: type == '8'}">crystal的春节</button>
+				<button class="btn btn-new" @click="changeType('7')" :class="{active: type == '7'}">除夕倒计时</button>
 			</div>
 			<div class="count-label">
 				距离<span>{{typeLabel}}<em>（{{notice}}）</em></span>还有：
 			</div>
 			<div class="time-area" v-if="count == 'counting'">
-				<template v-if="day > 0 || month > 0">
+				{{month}}
+				<template v-if="year > 0">
+					<span v-for="(item,index) in year" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'year'+index">{{item}}</span><em>年</em>
+					<span v-for="(item,index) in month" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'month'+index">{{item}}</span><em>月</em>
+					<span v-for="(item,index) in day" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'day'+index">{{item}}</span><em>天</em>
+				</template>
+				<template v-else-if="day > 0 || month > 0">
 					<span v-for="(item,index) in month" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'month'+index">{{item}}</span><em>月</em>
 					<span v-for="(item,index) in day" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'day'+index">{{item}}</span><em>天</em>
 				</template>
@@ -283,55 +288,13 @@
 					minutes: '',
 					offWorkHour: 18,
 					offWorkMin: 0,
-					holidays: [{
-							name: 'qingming',
-							label: '清明节',
-							qingming: '2021-04-03 00:00:00'
-						},
-						{
-							name: 'laodong',
-							label: '劳动节',
-							time: '2021-05-01 00:00:00'
-						},
-						{
-							name: 'duanwu',
-							label: '端午节',
-							time: '2021-06-12 00:00:00'
-						},
-						{
-							name: 'zhongqiu',
-							label: '中秋节',
-							time: '2021-09-19 00:00:00'
-						},
-						{
-							name: 'guoqing',
-							label: '国庆节',
-							time: '2021-10-01 00:00:00'
-						},
-						{
-							name: 'yuandan',
-							label: '元旦',
-							time: '2022-01-01 00:00:00'
-						},
-						{
-							name: 'chunjie',
-							label: '春节',
-							time: '2022-01-31 00:00:00'
-						},
-						{
-							name: 'other',
-							label: 'crystal的春节',
-							time: '2022-01-24 18:00:00'
-						}
-					],
-					qingming: '2022-04-03 00:00:00',
-					laodong: '2022-04-30 00:00:00',
-					duanwu: '2022-06-03 00:00:00',
-					zhongqiu: '2022-09-10 00:00:00',
-					guoqing: '2022-10-01 00:00:00',
-					yuandan: '2023-01-01 00:00:00',
-					chunjie: '2023-01-21 00:00:00',
-					other: '2023-01-14 18:00:00'
+					qingming: '2023-04-05 00:00:00',
+					laodong: '2023-04-29 00:00:00',
+					duanwu: '2023-06-22 00:00:00',
+					zhongqiu: '2023-09-29 00:00:00',
+					guoqing: '2023-10-01 00:00:00',
+					yuandan: '2024-01-01 00:00:00',
+					chuxi: '2024-02-09 00:00:00',
 				}
 			},
 			computed: {
@@ -352,7 +315,7 @@
 					} else if (type == '6') {
 						return moment(this.yuandan).format('YYYY年MM月DD日')
 					} else if (type == '7') {
-						return moment(this.chunjie).format('YYYY年MM月DD日')
+						return moment(this.chuxi).format('YYYY年MM月DD日')
 					}else if (type == '8') {
 						return moment(this.other).format('YYYY年MM月DD日 HH:mm:ss')
 					}
@@ -436,7 +399,7 @@
 					var diff = this.initDuration().diff
 					if (diff < 0) {
 						this.count = 'done'
-						this.label = '聪明的人已经下班了，你还在加班么？'
+						this.label = '勤劳的人已经下班了，你还在加班么？'
 						this.clearTimer()
 						return
 					} else {
@@ -482,12 +445,8 @@
 							label = '元旦节'
 							break;
 						case '7':
-							time = this.chunjie
-							label = '春节'
-							break;
-						case '8':
-							time = this.other
-							label = 'crystal的春节'
+							time = this.chuxi
+							label = '除夕'
 							break;
 						default:
 							break;
@@ -504,6 +463,7 @@
 						this.count = 'counting'
 						this.month = data.months.toString()
 						this.day = data.days.toString()
+						this.year = data.years.toString()
 						this.typeLabel = label
 						this.label = this.format(data.hours) + '时' + this.format(data.minutes) + '分' + this.format(data.seconds) + '秒'
 					}
