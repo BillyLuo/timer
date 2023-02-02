@@ -75,7 +75,11 @@
 					index = mobilearr.length - 1
 				}
 				localStorage.setItem('index', index)
-				document.body.style['background-image'] = 'url(./img/'+mobilearr[index]+')'
+				if (mobilearr[index]) {
+					document.body.style['background-image'] = 'url(./img/'+mobilearr[index]+')'
+				} else if (mobilearr[localIndex]) {
+					document.body.style['background-image'] = 'url(./img/'+mobilearr[localIndex]+')'
+				}
 				// document.body.style['background'] = '#fff'
 			}
 			randomImg()
