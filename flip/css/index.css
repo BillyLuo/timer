@@ -104,12 +104,12 @@ body {
 .setting img {
 	width: 30px;
 	float: right;
-	opacity: .35;
+	opacity: .15;
 	transition: .3s;
 	position: relative;
 	z-index: 4;
 	cursor: pointer;
-	display: none;
+	/* display: none; */
 }
 .setting img:hover {
 	opacity: 1;
