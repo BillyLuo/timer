@@ -22,6 +22,7 @@
 				text-align: center;
 				bottom: 50%;
 				left: 0;
+				background: rgba(0,0,0,.35);
 			}
 
 			.count-label span {
@@ -174,7 +175,7 @@
 					padding-top: 30px;
 				}
 				.count-label {
-					bottom: 70px;
+					bottom: 88px;
 				}
 				.btn {
 					display: block;
@@ -199,7 +200,7 @@
 					background-size: 100% auto;
 				}
 				.time-area {
-					bottom: 30px;
+					bottom: 44px;
 				}
 				.days-area {
 					bottom: 0;
@@ -287,13 +288,13 @@
 					minutes: '',
 					offWorkHour: 18,
 					offWorkMin: 0,
-					qingming: '2023-04-05 00:00:00',
-					laodong: '2023-04-29 00:00:00',
-					duanwu: '2023-06-22 00:00:00',
-					zhongqiu: '2023-09-29 00:00:00',
-					guoqing: '2023-10-01 00:00:00',
-					yuandan: '2024-01-01 00:00:00',
-					chuxi: '2024-02-09 00:00:00',
+					qingming: '2024-04-04 00:00:00',
+					laodong: '2024-05-01 00:00:00',
+					duanwu: '2024-06-10 00:00:00',
+					zhongqiu: '2024-09-15 00:00:00',
+					guoqing: '2024-10-01 00:00:00',
+					yuandan: '2025-01-01 00:00:00',
+					chuxi: '2025-01-28 00:00:00',
 				}
 			},
 			computed: {
@@ -323,15 +324,15 @@
 			watch: {
 				type(val) {
 					var bg = {
-						'0': 'img/bg/1.jpg',
-						'1': 'img/bg/2.jpg',
-						'2': 'img/bg/3.jpg',
-						'3': 'img/bg/4.jpg',
-						'4': 'img/bg/5.jpg',
-						'5': 'img/bg/6.jpg',
-						'6': 'img/bg/7.jpg',
-						'7': 'img/bg/8.jpg',
-						'8': 'img/bg/1.jpg',
+						'0': 'img/bg/new.jpg',
+						'1': 'img/bg/new.jpg',
+						'2': 'img/bg/new.jpg',
+						'3': 'img/bg/new.jpg',
+						'4': 'img/bg/new.jpg',
+						'5': 'img/bg/new.jpg',
+						'6': 'img/bg/new.jpg',
+						'7': 'img/bg/new.jpg',
+						'8': 'img/bg/new.jpg',
 					}
 					app.style['background-image'] = 'url(' + bg[val] + ')'
 				}
