@@ -12,7 +12,12 @@
 				background: #000;
 				font-family: -apple-system,Helvetica,sans-serif;
 			}
-
+			* {
+				box-sizing: border-box;
+			}
+			.count-label img {
+				cursor: pointer;
+			}
 			.count-label {
 				position: fixed;
 				left: 0;
@@ -166,8 +171,8 @@
 				bottom: 0;
 				margin: auto;
 				background-position: center;
-				background-repeat: repeat;
-				background-size: auto 80%;
+				background-repeat: no-repeat;
+				background-size: contain;
 				background-image: url(img/bg/n1.jpg);
 			}
 			@media only screen and (max-width: 640px) {
@@ -188,7 +193,7 @@
 				.count-label {
 					font-size: 16px;
 				}
-
+				
 				.count-label span {
 					font-size: 20px;
 				}
@@ -223,6 +228,67 @@
 					line-height: 24px;
 				}
 			}
+			.modal {
+				position: fixed;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				margin: auto;
+			}
+			.mask {
+				position: fixed;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				margin: auto;
+				background: rgba(0, 0, 0, .85);
+			}
+			.modal-body {
+				width: 360px;
+				height: 200px;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				margin: auto;
+				background: #fff;
+				padding: 16px;
+				border-radius: 8px;
+			}
+			.modal-title {
+				text-align: center;
+				font-size: 16px;
+				margin-bottom: 16px;
+			}
+			.modal-content {
+				padding: 20px 0;
+			}
+			.modal-content input{
+			  display: block;
+				width: 100%;
+				height: 32px;
+			}
+			.modal-close button {
+				display: block;
+				width: 100%;
+				height: 32px;
+				cursor: pointer;
+			}
+			.close-icon {
+				width: 20px;
+				position: absolute;
+				top: 10px;
+				right: 20px;
+				cursor: pointer;
+			}
+			.close-icon:hover {
+				opacity: 0.9;
+				transform: scale(1.1);
+				transition: 0.3s;
+			}
 		</style>
 	</head>
 	<body>
@@ -238,7 +304,8 @@
 				<button class="btn btn-new" @click="changeType('7')" :class="{active: type == '7'}">除夕倒计时</button>
 			</div>
 			<div class="count-label">
-				距离<span>{{typeLabel}}<em>（{{notice}}）</em></span>还有：
+				距离<span>{{typeLabel}}<em>（{{notice}}）</em><span v-if="type === '0'"><img @click="showModal = true" style="width: 20px;" src="./img/edit.svg" /></span>
+				还有：
 			</div>
 			<div class="time-area" v-if="count == 'counting'">
 				<template v-if="year > 0">
@@ -264,6 +331,19 @@
 					<em>约</em>
 					<span v-for="(item,index) in minutes" :class="['item-'+item,{label: item.match(/\D/g)}]" :a="index" :key="'day'+index">{{item}}</span><em>分</em>
 				</template>
+			</div>
+			<div class="modal" v-if="showModal">
+				<div class="mask" @click="showModal=false"></div>
+				<div class="modal-body">
+					<img src="./img/close.svg" @click="showModal=false" class="close-icon">
+					<div class="modal-title">设置您的下班时间</div>
+					<div class="modal-content">
+						<input type="time" v-model="offWorkTime" />
+					</div>
+					<div class="modal-close" @click="setTime">
+						<button>确定</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>
@@ -295,6 +375,8 @@
 					guoqing: '2024-10-01 00:00:00',
 					yuandan: '2025-01-01 00:00:00',
 					chuxi: '2025-01-28 00:00:00',
+					showModal: false,
+					offWorkTime: '18:00'
 				}
 			},
 			computed: {
@@ -324,18 +406,21 @@
 			watch: {
 				type(val) {
 					var bg = {
-						'0': 'img/bg/new.jpg',
-						'1': 'img/bg/new.jpg',
-						'2': 'img/bg/new.jpg',
-						'3': 'img/bg/new.jpg',
-						'4': 'img/bg/new.jpg',
-						'5': 'img/bg/new.jpg',
-						'6': 'img/bg/new.jpg',
-						'7': 'img/bg/new.jpg',
-						'8': 'img/bg/new.jpg',
+						'0': 'img/bg.jpeg',
+						'1': 'img/bg.jpeg',
+						'2': 'img/bg.jpeg',
+						'3': 'img/bg.jpeg',
+						'4': 'img/bg.jpeg',
+						'5': 'img/bg.jpeg',
+						'6': 'img/bg.jpeg',
+						'7': 'img/bg.jpeg',
+						'8': 'img/bg.jpeg',
 					}
 					app.style['background-image'] = 'url(' + bg[val] + ')'
 				}
+			},
+			created() {
+			  this.getLocalTime()
 			},
 			mounted() {
 				let type = localStorage.getItem('type')
@@ -346,6 +431,25 @@
 				this.changeType(type)
 			},
 			methods: {
+				getLocalTime() {
+					var time = localStorage.getItem('offWorkTime')
+					if (time && time?.split(':')?.length === 2) {
+						var arr = time.split(':')
+						this.offWorkHour = arr[0]
+						this.offWorkMin = arr[1]
+						this.offWorkTime = time
+					}
+				},
+				setTime () {
+					var arr = this.offWorkTime.split(':')
+					if (arr?.length == 2) {
+						this.offWorkHour = arr[0]
+						this.offWorkMin = arr[1]
+						localStorage.setItem('offWorkTime', this.offWorkTime)
+					}
+					this.showModal = false
+					this.changeType('0')
+				},
 				initDuration() {
 					var start = moment()
 					let offWorkHour = this.offWorkHour
