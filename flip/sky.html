@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+		<link rel="stylesheet" type="text/css" href="css/flip.css"/>
+		<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1" />
+		<script src="js/flip.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.11.0/vconsole.min.js"></script>
+	</head>
+	<body>
+		<div class="setting">
+			<img id="icon" src="img/setting.png" alt="">
+			<div class="setting-content" id="btn">
+				<button onclick="randomImg('random')">不行，我要换个背景</button>
+				<div class="btns">
+					<a href="javascript:;" onclick="randomImg(-1)">上一个</a>
+					<a href="javascript:;" onclick="randomImg(1)">下一个</a>
+				</div>
+			</div>
+			<div id="mask" class="mask"></div>
+		</div>
+		<div class="app">
+			<div class="app-label">距离Sky主管归乡还有<span>：</span></div>
+			<div class="tick" data-did-init="handleTickInit">
+				<div data-repeat="true" data-layout="horizontal fit" data-transform="preset(d, h, m, s) -> delay">
+					<div class="tick-group">
+						<div data-key="value" data-repeat="true" data-transform="pad(00) -> split -> delay">
+							<span data-view="flip"></span>
+						</div>
+						<span data-key="label" data-view="text" class="tick-label"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/hammer.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			// var vConsole = new VConsole();
+			var icon = document.getElementById('icon')
+			var btn = document.getElementById('btn')
+			var mask = document.getElementById('mask')
+			icon.onclick = function () {
+				if (btn.style.display == 'block') {
+					btn.style.display = 'none';
+					mask.style.display = 'none'
+				} else {
+					btn.style.display = 'block';
+					mask.style.display = 'block'
+				}
+			}
+			mask.onclick = function () {
+				btn.style.display = 'none'
+				mask.style.display = 'none'
+			}
+			var mobilearr = ['mobile.png', 'mobile2.jfif', 'mobile3.jfif', 'mobile4.jfif', 'mobile5.jfif', 'mobile6.jfif', 'mobile7.jfif', 'desktop.png',
+				'mobile8.png', 'mobile9.jfif', 'mobile10.jfif', 'mobile11.jfif', 'mobile12.jfif', 'mobile13.jfif', 'mobile14.jfif', 'mobile15.jfif', 'mobile16.jfif',
+				'mobile17.jfif', 'mobile18.jfif', 'mobile19.jfif', 'mobile20.jfif', 'mobile21.jfif', 'mobile22.jfif', 'mobile8.jfif'
+			]
+			function randomImg(flag) {
+				var localIndex = localStorage.getItem('index')
+				var index = Math.floor(Math.random()*mobilearr.length)
+				if (flag && localIndex) {
+					if (flag == 1) {
+						index = localIndex*1 + 1
+					} else if (flag == -1) {
+						index = localIndex*1 - 1
+					}
+				} else if (localIndex) {
+					index = localIndex
+				}
+				if (index >= mobilearr.length) {
+					index = 0
+				} else if (index < 0) {
+					index = mobilearr.length - 1
+				}
+				localStorage.setItem('index', index)
+				if (mobilearr[index]) {
+					document.body.style['background-image'] = 'url(./img/'+mobilearr[index]+')'
+				} else if (mobilearr[localIndex]) {
+					document.body.style['background-image'] = 'url(./img/'+mobilearr[localIndex]+')'
+				}
+				// document.body.style['background'] = '#fff'
+			}
+			randomImg()
+			function handleTickInit(tick) {
+
+				// uncomment to set labels to different language
+				
+				var locale = {
+						YEAR_PLURAL: '年',
+						YEAR_SINGULAR: '年',
+						MONTH_PLURAL: '月',
+						MONTH_SINGULAR: '月',
+						WEEK_PLURAL: '周',
+						WEEK_SINGULAR: '周',
+						DAY_PLURAL: '天',
+						DAY_SINGULAR: '天',
+						HOUR_PLURAL: '小时',
+						HOUR_SINGULAR: '小时',
+						MINUTE_PLURAL: '分',
+						MINUTE_SINGULAR: '分',
+						SECOND_PLURAL: '秒',
+						SECOND_SINGULAR: '秒',
+						MILLISECOND_PLURAL: '毫秒',
+						MILLISECOND_SINGULAR: '毫秒'
+				};
+
+				for (var key in locale) {
+						if (!locale.hasOwnProperty(key)) { continue; }
+						tick.setConstant(key, locale[key]);
+				}
+		       
+
+				// format of due date is ISO8601
+				// https://en.wikipedia.org/wiki/ISO_8601
+
+				// '2018-01-31T12:00:00'        to count down to the 31st of January 2018 at 12 o'clock
+				// '2019'                       to count down to 2019
+				// '2018-01-15T10:00:00+01:00'  to count down to the 15th of January 2018 at 10 o'clock in timezone GMT+1
+
+				// create the countdown counter
+				window.counter = Tick.count.down('2025-01-16T00:15:00', {
+					format: ['d', 'h', 'm', 's'],
+					interval: 1000
+				});
+				counter.onupdate = function(value) {
+					tick.value = value;
+				};
+
+				counter.onended = function() {
+					// redirect, uncomment the next line
+					// window.location = 'my-location.html'
+
+					// hide counter, uncomment the next line
+					// tick.root.style.display = 'none';
+
+					// show message, uncomment the next line
+					// document.querySelector('.tick-onended-message').style.display = '';
+				};
+			}
+			// Get a reference to an element
+			var square = document.querySelector('.app');
+			console.log(square)
+			
+			// Create a manager to manager the element
+			var manager = new Hammer.Manager(square);
+			
+			// Create a recognizer
+			var R = new Hammer.Rotate({
+			  threshold: 180,
+				pointers: 3
+			});
+			var r2 = new Hammer.Pinch({
+				pointers: 5
+			})
+			var r3 = new Hammer.Swipe({
+				threshold: 20
+			})
+			var r4 = new Hammer.Tap({
+				pointers: 2
+			})
+			// Add the recognizer to the manager
+			manager.add(R);
+			manager.add(r2)
+			manager.add(r3)
+			manager.add(r4)
+			
+			// Subscribe to desired event
+			manager.on('pinchend', function(e) {
+			});
+			manager.on('rotateend', function(e) {
+			})
+			manager.on('swipeleft', function(e) {
+			  randomImg(1)
+			})
+			manager.on('swiperight', function(e) {
+			  randomImg(-1)
+			})
+			manager.on('swipeup', function(e) {
+			  randomImg(1)
+			})
+			manager.on('swipedown', function(e) {
+			  randomImg(-1)
+			})
+			manager.on('tap', function(e) {
+			  randomImg('random')
+			})
+		</script>
+	</body>
+</html>
