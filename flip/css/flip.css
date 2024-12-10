@@ -2,6 +2,9 @@
  * @pqina/tick v1.8.0 - Counters Made Easy
  * Copyright (c) 2020 PQINA - https://github.com/pqina/tick/
  */
+.app-label {
+  text-align: center;
+}
 .tick {
   box-sizing: border-box;
   -webkit-user-select: none;
